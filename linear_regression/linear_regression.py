@@ -22,7 +22,7 @@ hypothesis = x_train * W + b
 cost = torch.mean((hypothesis - y_train) ** 2)
 optimizer = optim.SGD([W, b], lr=0.01)
 
-nb_epochs = 1000  # 경사하강법 반복 횟수
+nb_epochs = 1000  # 경사하강법 반복 횟수(전체 훈련 데이터가 학습에 한 번 사용된 주기)
 for epoch in range(nb_epochs + 1):
     hypothesis = x_train * W + b
     cost = torch.mean((hypothesis - y_train) ** 2)
