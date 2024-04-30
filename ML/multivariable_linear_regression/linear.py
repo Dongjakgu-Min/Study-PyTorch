@@ -2,6 +2,7 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 import torch.optim as optim
+from time import time
 
 
 torch.manual_seed(1)  # 랜덤 시드 고정
@@ -22,7 +23,10 @@ b = torch.zeros(1, requires_grad=True)  # 편향
 optimizer = optim.SGD([w1, w2, w3, b], lr=1e-5)  # optimizer 설정
 nb_epochs = 1000  # 반복 횟수
 
+start_time, end_time = 0, 0
+
 for epoch in range(nb_epochs + 1):
+    start_time = time()
     hypothesis = x1_train + w1 * x1_train + w2 * x2_train + w3 * x3_train + b  # 가설
 
     cost = torch.mean((hypothesis - y_train) ** 2)  # cost 계산 (가설과 학습용 y 차이의 평균
@@ -30,6 +34,9 @@ for epoch in range(nb_epochs + 1):
     optimizer.zero_grad()  # optimizer gradient 초기화
     cost.backward()  # 역전파 알고리즘 사용
     optimizer.step()  # 역전파 단계에서 수집된 변화도로 매개변수를 조정
+
+    end_time = time()
+    print(start_time - end_time)
 
     if epoch % 100 == 0:
         print('Epoch {:4d}/{} w1: {:.3f} w2: {:.3f} w3: {:.3f} b: {:.3f} Cost: {:.6f}'.format(
